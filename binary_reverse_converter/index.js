@@ -1,3 +1,10 @@
+/**
+ * @author Carter Kosturos
+ * @version 1.1.0
+ * 
+ * This program converts RISC-V instructions to binary.
+ */
+
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
