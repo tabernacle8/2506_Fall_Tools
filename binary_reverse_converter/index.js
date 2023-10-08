@@ -12,11 +12,19 @@ const readline = require('readline').createInterface({
 
 function decToBinary(dec, length) {
     let bin = (dec >>> 0).toString(2); // Convert to binary
-    while (bin.length < length) {
-        bin = '0' + bin; // Add leading zeros if needed
+
+    if (bin.length > length) {
+        console.warn(`WARNING: The binary representation (${bin}) exceeds the specified length (${length})!`);
+        bin = bin.substring(bin.length - length); // Trim from left to get the rightmost bits
+    } else {
+        while (bin.length < length) {
+            bin = '0' + bin; // Add leading zeros if needed
+        }
     }
+    
     return bin;
 }
+
 
 function extendHexTo8Digits(hex) {
     while (hex.length < 8) {
@@ -29,11 +37,11 @@ readline.question(`Please enter instruction (Example: lbu x29, 0(x10): `, (instr
     let format;
 
     // Check the instruction format
-    if (/^[\w]+\s+x\d+,\s+\d+\(x\d+\)$/.test(instruction)) {
+    if (/^[\w]+\s+x\d+,\s+-?\d+\(x\d+\)$/.test(instruction)) {
         format = 1;
-    } else if (/^[\w]+\s+x\d+,\s+x\d+,\s+\d+$/.test(instruction)) {
+    } else if (/^[\w]+\s+x\d+,\s+x\d+,\s+-?\d+$/.test(instruction)) {
         format = 2;
-    } else if (/^[\w]+\s+x\d+,\s+\d+$/.test(instruction)) {
+    } else if (/^[\w]+\s+x\d+,\s+-?\d+$/.test(instruction)) {
         format = 3;
     } else if (/^[\w]+\s+x\d+,\s+x\d+,\s+x\d+$/.test(instruction)) {
         format = 4;
@@ -41,7 +49,7 @@ readline.question(`Please enter instruction (Example: lbu x29, 0(x10): `, (instr
         console.error("Invalid instruction format!");
         readline.close();
         return;
-    }
+    }    
 
     readline.question('Please enter desired format (J, U, I, R): ', (formatType) => {
         if (!['J', 'U', 'I', 'R'].includes(formatType)) {
@@ -68,12 +76,12 @@ readline.question(`Please enter instruction (Example: lbu x29, 0(x10): `, (instr
                     let matches, rd, rs1, imm;
             
                     if (format === 1) { 
-                        matches = instruction.match(/^[\w]+\s+(x\d+),\s+(\d+)\(x(\d+)\)$/);
+                        matches = instruction.match(/^[\w]+\s+(x\d+),\s+(-?\d+)\(x(\d+)\)$/);                        
                         rd = decToBinary(parseInt(matches[1].substr(1)), 5);
                         rs1 = decToBinary(parseInt(matches[3]), 5);  // fix here
                         imm = decToBinary(parseInt(matches[2]), 12); // and here
                     } else if (format === 2) {
-                        matches = instruction.match(/^[\w]+\s+(x\d+),\s+(x\d+),\s+(\d+)$/);
+                        matches = instruction.match(/^[\w]+\s+(x\d+),\s+(x\d+),\s+(-?\d+)$/);                        
                         rd = decToBinary(parseInt(matches[1].substr(1)), 5);
                         rs1 = decToBinary(parseInt(matches[2].substr(1)), 5);
                         imm = decToBinary(parseInt(matches[3]), 12);
