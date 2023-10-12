@@ -9,7 +9,17 @@ const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
 });
+function pauseBeforeExit() {
+    const rl = require('readline').createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
 
+    rl.question('Press any key to exit...', () => {
+        rl.close();
+        process.exit();
+    });
+}
 
 readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) CPU Time\n3) Clock rate\n4) Clock cycles\n5) CPI\n6) MIPS\n7) Power\n8) Execution time ratio\n9) T-Improved\n\nChoice: `, (choice) => {
 
@@ -19,7 +29,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                 readline.question("Enter Y performance of execution time", (y) => {
                     console.log("\n\nFormula: x/y");
                     console.log(`X is ${x/y} times faster than Y`);
-                    readline.close();
+                    readline.close();pauseBeforeExit();
                 });
             });
         case 2:
@@ -38,7 +48,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                             readline.question("Enter clock cycle time", (clock_cycle_time) => {
                                 console.log("\n\nFormula: clock cycles * clock cycle time");
                                 console.log(`CPU Time: ${clock_cycles * clock_cycle_time}`);
-                                readline.close();
+                                readline.close();pauseBeforeExit();
                             });
                         });
                         break;
@@ -47,7 +57,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                             readline.question("Enter clock rate", (clock_rate) => {
                                 console.log("\n\nFormula: clock cycles / clock rate");
                                 console.log(`CPU Time: ${clock_cycles / clock_rate}`);
-                                readline.close();
+                                readline.close();pauseBeforeExit();
                             });
                         });
                         break;
@@ -60,7 +70,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                                             readline.question("Enter clock cycle time", (clock_cycle_time) => {
                                                 console.log("\n\nFormula: instruction count * CPI * clock cycle time");
                                                 console.log(`CPU Time: ${instruction_count * cpi * clock_cycle_time}`);
-                                                readline.close();
+                                                readline.close();pauseBeforeExit();
                                             });
                                         });
                                     });
@@ -71,14 +81,14 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                                             readline.question("Enter clock rate", (clock_rate) => {
                                                 console.log("\n\nFormula: instruction count * CPI / clock rate");
                                                 console.log(`CPU Time: ${instruction_count * cpi / clock_rate}`);
-                                                readline.close();
+                                                readline.close();pauseBeforeExit();
                                             });
                                         });
                                     });
                                     break;
                                 default:
                                     console.error("Invalid choice");
-                                    readline.close();
+                                    readline.close();pauseBeforeExit();
                                     break;
                             }
                         });
@@ -89,7 +99,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                                 readline.question("Enter seconds/clock cycle", (seconds_clock_cycle) => {
                                     console.log("\n\nFormula: (instructions/program) * (clock cycles/instruction) * (seconds/clock cycle)");
                                     console.log(`CPU Time: ${instructions_program * clock_cycles_instruction * seconds_clock_cycle}`);
-                                    readline.close();
+                                    readline.close();pauseBeforeExit();
                                 });
                             });
                         });
@@ -97,7 +107,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                     default:
                         console.error("Invalid choice:\nHere are all the formulas:\n");
                         console.log("Time = Clock cycles * Clock cycle time\nTime = Clock cycles / clock rate\nTime = Instruction count * CPI * Clock cycle time\nTime = Instruction count * CPI / Clock rate\nTime = (Instructions/Program) * (Clock cycles/Instruction) * (Seconds/Clock cycle)");
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                         break;
                 }
             })
@@ -113,7 +123,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                 readline.question("Enter CPU time", (cpu_time) => {
                     console.log("\n\nFormula: clock cycles / CPU time");
                     console.log(`Clock rate: ${clock_cycles / cpu_time}`);
-                    readline.close();
+                    readline.close();pauseBeforeExit();
                 }); 
             })
             break;
@@ -133,7 +143,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                             readline.question("Enter clock rate", (clock_rate) => {
                                 console.log("\n\nFormula: CPU time * clock rate");
                                 console.log(`Clock cycles: ${cpu_time * clock_rate}`);
-                                readline.close();
+                                readline.close();pauseBeforeExit();
                             });
                         });
                         break;
@@ -142,7 +152,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                             readline.question("Enter CPI", (cpi) => {
                                 console.log("\n\nFormula: instruction count * CPI");
                                 console.log(`Clock cycles: ${instruction_count * cpi}`);
-                                readline.close();
+                                readline.close();pauseBeforeExit();
                             });
                         });
                         break;
@@ -158,12 +168,12 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                             }
                             console.log("\n\nFormula: sum of i=1, n (CPIi * ICi)");
                             console.log(`Clock cycles: ${total}`);
-                            readline.close();
+                            readline.close();pauseBeforeExit();
                         });
                         break;
                     default:
                         console.error("Invalid choice");
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                         break;
                 }
             })
@@ -184,7 +194,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                             readline.question("Enter instruction count", (instruction_count) => {
                                 console.log("\n\nFormula: clock cycles / instruction count");
                                 console.log(`CPI: ${clock_cycles / instruction_count}`);
-                                readline.close();
+                                readline.close();pauseBeforeExit();
                             });
                         });
                         break;
@@ -200,12 +210,12 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                             }
                             console.log("\n\nFormula: sum of i=1, n cpi * (ic / total ic)");
                             console.log(`CPI: ${total}`);
-                            readline.close();
+                            readline.close();pauseBeforeExit();
                         });
                         break;
                     default:
                         console.error("Invalid choice");
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                         break;
                 }
             })
@@ -226,7 +236,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                             readline.question("Enter CPU time", (cpu_time) => {
                                 console.log("\n\nFormula: instruction count / (CPU time * 10^6)");
                                 console.log(`MIPS: ${instruction_count / (cpu_time * 10^6)}`);
-                                readline.close();
+                                readline.close();pauseBeforeExit();
                             });
                         });
                         break;
@@ -235,7 +245,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                             readline.question("Enter CPI", (cpi) => {
                                 console.log("\n\nFormula: clock rate / (CPI * 10^6)");
                                 console.log(`MIPS: ${clock_rate / (cpi * 10^6)}`);
-                                readline.close();
+                                readline.close();pauseBeforeExit();
                             });
                         });
                         break;
@@ -251,12 +261,12 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                             }
                             console.log("\n\nFormula: IC / ((IC * CPI) / Clock Rate)");
                             console.log(`MIPS: ${total}`);
-                            readline.close();
+                            readline.close();pauseBeforeExit();
                         });
                         break;
                     default:
                         console.error("Invalid choice");
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                         break;
                 }
             })
@@ -273,7 +283,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                     readline.question("Enter frequency", (frequency) => {
                         console.log("\n\nFormula: capacitance * voltage^2 * frequency");
                         console.log(`Power: ${capacitance * voltage^2 * frequency}`);
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                     });
                 });
 
@@ -294,7 +304,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                         let geometricMean = Math.pow(product, 1 / count);
                         console.log("\n\nFormula: nth root of (Product of Execution time ratios)");
                         console.log(`Geometric Mean: ${geometricMean}`);
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                     } else {
                         product *= parseFloat(ratio);
                         count++;
@@ -316,18 +326,18 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                     readline.question("Enter improvement factor", (improvement_factor) => {
                         console.log("\n\nFormula: ((Taffected)/Improvement Factor) * Tunaffected");
                         console.log(`TImproved: ${((affected_time)/improvement_factor) * unaffected_time}`);
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                     });
                 });
             })
             break;
         default:
             console.error("Invalid choice");
-            readline.close();
+            readline.close();pauseBeforeExit();
             break;
     }
 });
 
 readline.question(`Press enter to exit`, (dummy) => {
-    readline.close();
+    readline.close();pauseBeforeExit();
 });

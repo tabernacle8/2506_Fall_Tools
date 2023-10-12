@@ -11,6 +11,18 @@ const readline = require('readline').createInterface({
     output: process.stdout
 });
 
+function pauseBeforeExit() {
+    const rl = require('readline').createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    rl.question('Press any key to exit...', () => {
+        rl.close();
+        process.exit();
+    });
+}
+
 readline.question(`Please enter binary or hex with 0x: `, (binary) => {
     if(binary.substring(0,2) === "0x"){
         binary = parseInt(binary, 16).toString(2);
@@ -100,11 +112,11 @@ readline.question(`Please enter binary or hex with 0x: `, (binary) => {
                 console.log("Invalid type");
                 break;
         }
-        readline.close();
+        readline.close();pauseBeforeExit();
     });
 });
 
 //Ask a dummy question to keep the program running
 readline.question(`Press enter to exit`, (dummy) => {
-    readline.close();
+    readline.close();pauseBeforeExit();
 });

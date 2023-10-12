@@ -10,6 +10,18 @@ const readline = require('readline').createInterface({
     output: process.stdout
 });
 
+function pauseBeforeExit() {
+    const rl = require('readline').createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    rl.question('Press any key to exit...', () => {
+        rl.close();
+        process.exit();
+    });
+}
+
 function decToBinary(dec, length) {
     let bin = (dec >>> 0).toString(2); // Convert to binary
 
@@ -47,21 +59,21 @@ readline.question(`Please enter instruction (Example: lbu x29, 0(x10): `, (instr
         format = 4;
     } else {
         console.error("Invalid instruction format!");
-        readline.close();
+        readline.close();pauseBeforeExit();
         return;
     }    
 
     readline.question('Please enter desired format (J, U, I, R): ', (formatType) => {
         if (!['J', 'U', 'I', 'R'].includes(formatType)) {
             console.error("Invalid format type!");
-            readline.close();
+            readline.close();pauseBeforeExit();
             return;
         }
 
         readline.question('Please enter opcode (binary, 7 bits): ', (opcode) => {
             if (opcode.length !== 7 || !/^[01]+$/.test(opcode)) {
                 console.error("Invalid opcode!");
-                readline.close();
+                readline.close();pauseBeforeExit();
                 return;
             }
 
@@ -69,7 +81,7 @@ readline.question(`Please enter instruction (Example: lbu x29, 0(x10): `, (instr
                 readline.question('Please enter funct3 (binary, 3 bits): ', (funct3) => {
                     if (funct3.length !== 3 || !/^[01]+$/.test(funct3)) {
                         console.error("Invalid funct3!");
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                         return;
                     }
                     
@@ -91,21 +103,21 @@ readline.question(`Please enter instruction (Example: lbu x29, 0(x10): `, (instr
                     console.log("\nBinary format: ${imm}${rs1}${funct3}${rd}${opcode}")
                     console.log(`Binary representation (I-type): ${binary}`);
                     console.log(`Hex representation (I-type): ${extendHexTo8Digits(parseInt(binary, 2).toString(16))}`)
-                    readline.close();
+                    readline.close();pauseBeforeExit();
                 });
             }
             else if (formatType === 'R') {
                 readline.question('Please enter funct3 (binary, 3 bits): ', (funct3) => {
                     if (funct3.length !== 3 || !/^[01]+$/.test(funct3)) {
                         console.error("Invalid funct3!");
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                         return;
                     }
 
                     readline.question('Please enter funct7 (binary, 7 bits): ', (funct7) => {
                         if (funct7.length !== 7 || !/^[01]+$/.test(funct7)) {
                             console.error("Invalid funct7!");
-                            readline.close();
+                            readline.close();pauseBeforeExit();
                             return;
                         }
 
@@ -122,7 +134,7 @@ readline.question(`Please enter instruction (Example: lbu x29, 0(x10): `, (instr
                         console.log("\nBinary format: ${funct7}${rs2}${rs1}${funct3}${rd}${opcode}")
                         console.log(`Binary representation: ${binary}`);
                         console.log(`Hex representation: ${extendHexTo8Digits(parseInt(binary, 2).toString(16))}`)
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                     });
                 });
             }
@@ -130,7 +142,7 @@ readline.question(`Please enter instruction (Example: lbu x29, 0(x10): `, (instr
                 readline.question('Please enter imm (binary, 20 bits for J, 20 bits for U): ', (imm) => {
                     if (imm.length !== 20 || !/^[01]+$/.test(imm)) {
                         console.error("Invalid immediate!");
-                        readline.close();
+                        readline.close();pauseBeforeExit();
                         return;
                     }
                     
@@ -145,12 +157,12 @@ readline.question(`Please enter instruction (Example: lbu x29, 0(x10): `, (instr
                     console.log("\nBinary format: ${imm}${rd}${opcode}")
                     console.log(`Binary representation (${formatType}-type): ${binary}`);
                     console.log(`Hex representation (${formatType}-type): ${extendHexTo8Digits(parseInt(binary, 2).toString(16))}`)
-                    readline.close();
+                    readline.close();pauseBeforeExit();
                 });
             }
         });
     });
 });
 readline.question(`Press enter to exit`, (dummy) => {
-    readline.close();
+    readline.close();pauseBeforeExit();
 });
