@@ -32,7 +32,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
                     readline.close();pauseBeforeExit();
                 });
             });
-        case 2:
+        case "2":
             readline.question("Select Choice\n\n1) I have clock cycles and time\n2) I have clock cycles and rate\n3) I have instruction count and CPI \n4) I have a lot of data (Instructions/program, clock cycles/instruction...)\n\nChoice: ", (cpu_choice) => {
                 //Formulas:
                 /**
@@ -114,7 +114,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
 
             break;
         //3) Clock rate
-        case 3:
+        case "3":
             /**
              * Formulas:
              * Rate = Clock Cycles / Cpu time
