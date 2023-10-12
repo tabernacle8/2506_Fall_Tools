@@ -151,3 +151,6 @@ readline.question(`Please enter instruction (Example: lbu x29, 0(x10): `, (instr
         });
     });
 });
+readline.question(`Press enter to exit`, (dummy) => {
+    readline.close();
+});

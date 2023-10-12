@@ -103,3 +103,8 @@ readline.question(`Please enter binary or hex with 0x: `, (binary) => {
         readline.close();
     });
 });
+
+//Ask a dummy question to keep the program running
+readline.question(`Press enter to exit`, (dummy) => {
+    readline.close();
+});

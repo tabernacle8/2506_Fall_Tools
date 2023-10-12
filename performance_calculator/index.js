@@ -327,3 +327,7 @@ readline.question(`Please enter a number:\n\n1) X is n times faster than Y\n2) C
             break;
     }
 });
+
+readline.question(`Press enter to exit`, (dummy) => {
+    readline.close();
+});
