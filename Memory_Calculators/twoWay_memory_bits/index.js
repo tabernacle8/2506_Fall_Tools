@@ -1,3 +1,11 @@
+/**
+ * @author Carter Kosturos
+ * @version 1.0.0
+ * 
+ * This program calculates the number of bits for the offset, set index, and tag
+ * 
+ * Written in part by GPT-4 cuz im lazy
+ */
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout

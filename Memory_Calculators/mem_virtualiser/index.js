@@ -1,3 +1,11 @@
+/**
+ * @author Carter Kosturos
+ * @version 1.0.0
+ * 
+ * This program virtualizes a cache with a given block size and cache size.
+ * 
+ * Written in part by GPT-4 cuz im lazy
+ */
 const readline = require('readline');
 
 const blockSize = 4; // Set the block size

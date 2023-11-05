@@ -3,7 +3,10 @@
  * @version 1.0.0
  * 
  * This program calculates common performance formulas
+ * 
+ * This code does not do everything, but it works for all slide problems
  */
+
 
 const readline = require('readline').createInterface({
     input: process.stdin,
