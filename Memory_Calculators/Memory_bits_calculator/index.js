@@ -36,11 +36,22 @@ function calculateCacheDetails(addressBits, cacheSizeKB, blockSizeBytes, associa
   // Each block will have one tag, so the total tags is the same as the number of blocks
   const totalTags = numBlocks;
 
+  // Number of tag comparators (associativity * numSets)
+  const numTagComparators = associativity * numSets;
+
+  const offsetBitRange = `0-${offsetBits - 1}`;
+  const indexBitRange = `${offsetBits}-${offsetBits + indexBits - 1}`;
+  const tagBitRange = `${offsetBits + indexBits}-${addressBits - 1}`;
+
   return {
     offsetBits: offsetBits,
     indexBits: indexBits,
     tagBits: tagBits,
-    totalTags: totalTags
+    totalTags: totalTags,
+    numTagComparators: numTagComparators,
+    offsetBitRange: offsetBitRange,
+    indexBitRange: indexBitRange,
+    tagBitRange: tagBitRange
   };
 }
 
@@ -58,10 +69,11 @@ function promptUser() {
           associativity = parseInt(associativity);
 
           const result = calculateCacheDetails(addressBits, cacheSizeKB, blockSizeBytes, associativity);
-          console.log(`Number of offset bits: ${result.offsetBits}`);
-          console.log(`Number of index bits: ${result.indexBits}`);
-          console.log(`Number of tag bits: ${result.tagBits}`);
+          console.log(`Number of offset bits: ${result.offsetBits} (Bits: ${result.offsetBitRange})`);
+          console.log(`Number of index bits: ${result.indexBits} (Bits: ${result.indexBitRange})`);
+          console.log(`Number of tag bits: ${result.tagBits} (Bits: ${result.tagBitRange})`);
           console.log(`Total number of tags when the cache is full: ${result.totalTags}`);
+          console.log(`Number of tag comparators per set: ${associativity}`);
 
           pauseBeforeExit();
           readline.close();
@@ -72,3 +84,4 @@ function promptUser() {
 }
 
 promptUser();
+
