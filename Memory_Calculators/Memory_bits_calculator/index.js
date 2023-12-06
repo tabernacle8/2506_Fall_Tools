@@ -5,7 +5,6 @@
  * This program calculates the number of bits for the offset, set index, and tag
  * 
  * Written in part by GPT-4 cuz im lazy
- * --Signed tabernacle800@gmail.com
  */
 const readline = require('readline').createInterface({
   input: process.stdin,
