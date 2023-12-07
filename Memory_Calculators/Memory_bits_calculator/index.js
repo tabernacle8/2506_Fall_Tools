@@ -6,10 +6,18 @@
  * 
  * Written in part by GPT-4 cuz im lazy
  */
+
+
 const readline = require('readline').createInterface({
   input: process.stdin,
   output: process.stdout
 });
+
+function askQuestion(query) {
+  return new Promise(resolve => {
+    readline.question(query, resolve);
+  });
+}
 
 function pauseBeforeExit() {
   const rl = require('readline').createInterface({
@@ -55,8 +63,9 @@ function calculateCacheDetails(addressBits, cacheSizeKB, blockSizeBytes, associa
   };
 }
 
+
 function promptUser() {
-  readline.question('Enter the number of address bits: ', addressBits => {
+  readline.question('Enter the number of address bits (Usually given as "X bit processor"): ', addressBits => {
     addressBits = parseInt(addressBits);
 
     readline.question('Enter the cache size in Kilobytes: ', cacheSizeKB => {
@@ -75,13 +84,16 @@ function promptUser() {
           console.log(`Total number of tags when the cache is full: ${result.totalTags}`);
           console.log(`Number of tag comparators per set: ${associativity}`);
 
-          pauseBeforeExit();
-          readline.close();
         });
       });
     });
   });
 }
 
+async function stall(){
+  await askQuestion('Press Enter to exit...');
+}
+
 promptUser();
+stall();
 
