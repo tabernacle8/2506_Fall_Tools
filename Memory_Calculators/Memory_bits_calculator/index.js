@@ -63,6 +63,11 @@ function calculateCacheDetails(addressBits, cacheSizeKB, blockSizeBytes, associa
   };
 }
 
+function invalidMessage(message){
+  console.log("=============================================")
+  console.log("STRANGE INPUT DETECTED, "+message);
+  console.log("=============================================")
+}
 
 function promptUser() {
   readline.question('Enter the number of address bits (Usually given as "X bit processor"): ', addressBits => {
@@ -76,6 +81,49 @@ function promptUser() {
         
         readline.question('Enter the cache associativity (e.g., 1 for direct-mapped, 2 for 2-way set associative, etc.): ', associativity => {
           associativity = parseInt(associativity);
+
+          var strangeInput = false;
+          //Sanity checks
+          if(addressBits<=0 || cacheSizeKB<=0 || blockSizeBytes<=0 || associativity<=0){
+            invalidMessage("VALUES ENTERED ARE 0 OR NEGATIVE");
+            strangeInput = true;
+          }
+
+          if(addressBits !== 32 && addressBits !== 64) {
+            invalidMessage("Invalid number of address bits. RISC-V typically uses 32 or 64 bits.");
+            strangeInput = true;
+          }
+
+          if(cacheSizeKB < 1 || cacheSizeKB > 8192) {
+            invalidMessage("Cache size is outside of a practical range.");
+            strangeInput = true;
+          }
+
+          if(!Number.isInteger(Math.log2(blockSizeBytes))) {
+            invalidMessage("Block size should be a power of 2.");
+            strangeInput = true;
+          }
+
+          if(!Number.isInteger(Math.log2(associativity)) || associativity <= 0) {
+            invalidMessage("Cache associativity should be a positive power of 2.");
+            strangeInput = true;
+          }
+
+          if((cacheSizeKB * 1024) % (blockSizeBytes * associativity) !== 0) {
+            invalidMessage("Cache size is not a multiple of block size times associativity.");
+            strangeInput = true;
+          }
+
+          if(isNaN(addressBits) || isNaN(cacheSizeKB) || isNaN(blockSizeBytes) || isNaN(associativity)) {
+            invalidMessage("Please enter numeric values only.");
+            strangeInput = true;
+          }
+
+          if(!strangeInput){
+          console.log("Sanity checks ran successfully, found no issues")
+          }
+
+          console.log("~~~~~~~~~~~~~~~~~~~~~~~~~Calculation Output~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
           const result = calculateCacheDetails(addressBits, cacheSizeKB, blockSizeBytes, associativity);
           console.log(`Number of offset bits: ${result.offsetBits} (Bits: ${result.offsetBitRange})`);
