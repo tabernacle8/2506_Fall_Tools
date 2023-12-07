@@ -1,0 +1,9 @@
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
+
+
+Get-ChildItem -Directory | ForEach-Object {
+    cd $_.FullName
+    pkg .
+    Get-ChildItem -File | Where-Object { $_.Extension -eq '.exe' -or $_.Extension -eq '' -or $_.Extension -eq '.mac' } | Move-Item -Destination .\executables\ -Force
+    cd ..
+}
