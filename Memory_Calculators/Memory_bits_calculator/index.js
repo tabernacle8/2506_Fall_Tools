@@ -71,16 +71,16 @@ function invalidMessage(message){
 
 function promptUser() {
   readline.question('Enter the number of address bits (Usually given as "X bit processor"): ', addressBits => {
-    addressBits = parseInt(addressBits);
+    addressBits = parseFloat(addressBits);
 
     readline.question('Enter the cache size in Kilobytes: ', cacheSizeKB => {
-      cacheSizeKB = parseInt(cacheSizeKB);
+      cacheSizeKB = parseFloat(cacheSizeKB);
 
       readline.question('Enter the block size in bytes: ', blockSizeBytes => {
-        blockSizeBytes = parseInt(blockSizeBytes);
+        blockSizeBytes = parseFloat(blockSizeBytes);
         
         readline.question('Enter the cache associativity (e.g., 1 for direct-mapped, 2 for 2-way set associative, etc.): ', associativity => {
-          associativity = parseInt(associativity);
+          associativity = parseFloat(associativity);
 
           var strangeInput = false;
           //Sanity checks
