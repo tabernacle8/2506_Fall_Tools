@@ -23,6 +23,17 @@ function pauseBeforeExit() {
     });
 }
 
+function replaceXRegisters(inputStr, registerLookup) {
+    return inputStr.replace(/\bx\d+\b/g, match => {
+      // Extract the number part of the register
+      const registerNumber = match.slice(1);
+      // Lookup the register name using the number
+      const registerName = registerLookup[match];
+      // If the register name exists, replace it, otherwise keep the original match
+      return registerName || match;
+    });
+  }
+
 readline.question(`Please enter binary or hex with 0x: `, (binary) => {
     if(binary.substring(0,2) === "0x"){
         binary = parseInt(binary, 16).toString(2);
@@ -71,6 +82,12 @@ readline.question(`Please enter binary or hex with 0x: `, (binary) => {
                 console.log("instruction x" + parseInt(rd, 2) + ", " + parseInt(immediate, 2) + "(x" + parseInt(rs1, 2) + ")");
                 //OR rd, rs1, imm
                 console.log("OR x" + parseInt(rd, 2) + ", x" + parseInt(rs1, 2) + ", " + parseInt(immediate, 2));
+
+                console.log("==============================")
+                //Json register lookup: ABILookupTable.json
+                console.log("ABI Representation: " + replaceXRegisters(("instruction x" + parseInt(rd, 2) + ", " + parseInt(immediate, 2) + "(x" + parseInt(rs1, 2) + ")"), require("./ABILookupTable.json")));
+                console.log("ABI Representation: " + replaceXRegisters(("OR x" + parseInt(rd, 2) + ", x" + parseInt(rs1, 2) + ", " + parseInt(immediate, 2)), require("./ABILookupTable.json")));
+                console.log("==============================")
                 break;
             case "R":
                 var funct7 = binary.substring(0, 7);
@@ -87,6 +104,9 @@ readline.question(`Please enter binary or hex with 0x: `, (binary) => {
                 //Print this, with binary converted to decimal
                 console.log("==============================")
                 console.log("instruction x" + parseInt(rd, 2) + ", x" + parseInt(rs1, 2) + ", x" + parseInt(rs2, 2));
+                console.log("==============================")
+                console.log("ABI Representation: " + replaceXRegisters(("instruction x" + parseInt(rd, 2) + ", x" + parseInt(rs1, 2) + ", x" + parseInt(rs2, 2)), require("./ABILookupTable.json")));
+
                 break;
             case "B":
             case "S":
@@ -107,6 +127,12 @@ readline.question(`Please enter binary or hex with 0x: `, (binary) => {
                 console.log("==============================")
                 console.log("instruction x" + parseInt(rs1, 2) + ", x" + parseInt(rs2, 2) + ", " + parseInt(imm_part1 + imm_part2, 2));
                 console.log("OR x" + parseInt(rs2, 2) + ", " + parseInt(imm_part1 + imm_part2, 2) + "(x" + parseInt(rs1, 2) + ")");
+                console.log("==============================")
+                
+                //Json register lookup: ABILookupTable.json
+                console.log("ABI Representation: " + replaceXRegisters(("instruction x" + parseInt(rs1, 2) + ", x" + parseInt(rs2, 2) + ", " + parseInt(imm_part1 + imm_part2, 2)), require("./ABILookupTable.json")));
+                console.log("ABI Representation: " + replaceXRegisters(("OR x" + parseInt(rs2, 2) + ", " + parseInt(imm_part1 + imm_part2, 2) + "(x" + parseInt(rs1, 2) + ")"), require("./ABILookupTable.json")));
+                console.log("==============================")
                 break;
             default:
                 console.log("Invalid type");
