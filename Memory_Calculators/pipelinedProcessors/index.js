@@ -54,7 +54,13 @@ async function main() {
         }
     });
 
+    //Detect edge case where all processors have the same latency
+    if (fastestProcessor === null) {
+        console.log("All processors have the same instruction execution latency.");
+    }
+    else{
     console.log(`Processor ${fastestProcessor} has the lowest instruction execution latency.`);
+    }
 
     // Additional comparison between two selected processors
     console.log("===============================================");
