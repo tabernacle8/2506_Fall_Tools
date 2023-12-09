@@ -95,7 +95,7 @@ function promptUser() {
           }
 
           if(cacheSizeKB < 1 || cacheSizeKB > 8192) {
-            invalidMessage("Cache size is outside of a practical range.");
+            invalidMessage("Cache size is outside of usual range.");
             strangeInput = true;
           }
 
