@@ -47,6 +47,7 @@ function main() {
       } else if (choice === '2') {
         rl.question('Enter the size of virtual address in bits: ', (virtualAddressSize) => {
           rl.question('Enter the page size in Kilobytes: ', (pageSize) => {
+            console.log("!!!!!!!!!! THIS CONVERTER ASSUMES 1 MB DRAM !!!!!!!!!!!")
             const size = calculateTLBEntrySize(parseInt(virtualAddressSize), parseInt(pageSize));
             console.log(`Each TLB entry requires ${size} bits.`);
             //rl.close();
