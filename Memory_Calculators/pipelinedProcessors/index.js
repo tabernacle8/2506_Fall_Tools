@@ -71,7 +71,7 @@ async function main() {
     const processorY = processors[parseInt(processorYIndex) - 1];
 
     console.log(`Comparing Processor ${processorXIndex} and Processor ${processorYIndex}...`);
-    console.log("Solve the following equation for N to find: minimum instructions for Processor X to be better than Processor Y");
+    console.log(`Solve the following equation for N to find: minimum instructions for Processor ${processorXIndex} to be better than Processor ${processorYIndex}`);
     console.log(`${processorX.pipelineLatency} + (N−1) × ${processorX.stageLatency} × ${processorX.issueRate} < ${processorY.pipelineLatency} + (N−1) × ${processorY.stageLatency} × ${processorY.issueRate}`);
 
     // Wait for user to hit Enter before exiting
