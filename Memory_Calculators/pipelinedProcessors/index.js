@@ -30,12 +30,14 @@ async function main() {
         console.log(`Processor ${i + 1}:`);
         const pipelineStages = await askQuestion('Enter the number of pipeline stages: ');
         const stageLatency = await askQuestion('Enter the stage latency (in ps): ');
-        const issueRate = await askQuestion('Enter the issue rate: ');
+        const issueRate = await askQuestion('Enter the issue rate (X multiple issue): ');
+        const efficiencyRate = await askQuestion('Enter the efficiency rate (as a percentage) Ex: This processor is 2-multiple issue 80% of the time, enter 80: ');
 
         processors.push({
             pipelineStages: parseInt(pipelineStages),
             stageLatency: parseInt(stageLatency),
             issueRate: parseInt(issueRate),
+            efficiencyRate: parseFloat(efficiencyRate) / 100,
             pipelineLatency: parseInt(pipelineStages) * parseInt(stageLatency)
         });
     }
@@ -47,32 +49,29 @@ async function main() {
     let minLatency = Number.MAX_SAFE_INTEGER;
     let fastestProcessor = null;
     processors.forEach((processor, index) => {
-        const instructionLatency = processor.pipelineLatency * processor.issueRate;
+        const effectiveIssueRate = processor.issueRate * processor.efficiencyRate;
+        const instructionLatency = processor.pipelineLatency * effectiveIssueRate;
         if (instructionLatency < minLatency) {
             minLatency = instructionLatency;
             fastestProcessor = index + 1;
         }
     });
 
-    //Detect edge case where all processors have the same latency
-    if (fastestProcessor === null) {
-        console.log("All processors have the same instruction execution latency.");
-    }
-    else{
     console.log(`Processor ${fastestProcessor} has the lowest instruction execution latency.`);
-    }
 
     // Additional comparison between two selected processors
     console.log("===============================================");
-    const processorXIndex = await askQuestion('Enter the number of Processor X for comparison (If you want the first processor you entered, type 1): ');
+    const processorXIndex = await askQuestion('Enter the number of Processor X for comparison: ');
     const processorYIndex = await askQuestion('Enter the number of Processor Y for comparison: ');
 
     const processorX = processors[parseInt(processorXIndex) - 1];
     const processorY = processors[parseInt(processorYIndex) - 1];
 
     console.log(`Comparing Processor ${processorXIndex} and Processor ${processorYIndex}...`);
-    console.log(`Solve the following equation for N to find: minimum instructions for Processor ${processorXIndex} to be better than Processor ${processorYIndex}`);
-    console.log(`${processorX.pipelineLatency} + (N−1) × ${processorX.stageLatency} × ${processorX.issueRate} < ${processorY.pipelineLatency} + (N−1) × ${processorY.stageLatency} × ${processorY.issueRate}`);
+    const effectiveIssueRateX = processorX.issueRate * processorX.efficiencyRate;
+    const effectiveIssueRateY = processorY.issueRate * processorY.efficiencyRate;
+    console.log("Solve the following equation for N to find: minimum instructions for Processor X to be better than Processor Y");
+    console.log(`${processorX.pipelineLatency} + (N−1) × ${processorX.stageLatency} × ${effectiveIssueRateX} < ${processorY.pipelineLatency} + (N−1) × ${processorY.stageLatency} × ${effectiveIssueRateY}`);
 
     // Wait for user to hit Enter before exiting
     await askQuestion('Press Enter to exit...');
