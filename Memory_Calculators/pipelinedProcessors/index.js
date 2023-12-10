@@ -49,10 +49,8 @@ async function main() {
     let minLatency = Number.MAX_SAFE_INTEGER;
     let fastestProcessor = null;
     processors.forEach((processor, index) => {
-        const effectiveIssueRate = processor.issueRate * processor.efficiencyRate;
-        const instructionLatency = processor.pipelineLatency * effectiveIssueRate;
-        if (instructionLatency < minLatency) {
-            minLatency = instructionLatency;
+        if (processor.pipelineLatency < minLatency) {
+            minLatency = processor.pipelineLatency;
             fastestProcessor = index + 1;
         }
     });
@@ -68,10 +66,14 @@ async function main() {
     const processorY = processors[parseInt(processorYIndex) - 1];
 
     console.log(`Comparing Processor ${processorXIndex} and Processor ${processorYIndex}...`);
-    const effectiveIssueRateX = processorX.issueRate * processorX.efficiencyRate;
-    const effectiveIssueRateY = processorY.issueRate * processorY.efficiencyRate;
     console.log("Solve the following equation for N to find: minimum instructions for Processor X to be better than Processor Y");
-    console.log(`${processorX.pipelineLatency} + (N−1) × ${processorX.stageLatency} × ${effectiveIssueRateX} < ${processorY.pipelineLatency} + (N−1) × ${processorY.stageLatency} × ${effectiveIssueRateY}`);
+
+    const initialLatencyX = (processorX.pipelineStages - 1) * processorX.stageLatency;
+    const initialLatencyY = (processorY.pipelineStages - 1) * processorY.stageLatency;
+
+    console.log(`${initialLatencyX} + ((${processorX.stageLatency} * N) / ${processorX.issueRate}) < ${initialLatencyY} + ((${processorY.stageLatency} * N) / ${processorY.issueRate})`);
+
+
 
     // Wait for user to hit Enter before exiting
     await askQuestion('Press Enter to exit...');
