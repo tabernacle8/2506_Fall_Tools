@@ -48,7 +48,13 @@ function calculateCacheDetails(addressBits, cacheSizeKB, blockSizeBytes, associa
   const numTagComparators = associativity * numSets;
 
   const offsetBitRange = `0-${offsetBits - 1}`;
-  const indexBitRange = `${offsetBits}-${offsetBits + indexBits - 1}`;
+  var indexBitRange = `Error`
+  if(indexBits!=0){
+  indexBitRange = `${offsetBits}-${offsetBits + indexBits - 1}`;
+  }
+  else{
+    indexBitRange = `No index bits, fully associative detected. Didn't expect this? Forced output is: ${offsetBits}-${offsetBits + indexBits - 1}`
+  }
   const tagBitRange = `${offsetBits + indexBits}-${addressBits - 1}`;
 
   return {
@@ -69,6 +75,11 @@ function invalidMessage(message){
   console.log("=============================================")
 }
 
+function calculateAssociativity(cacheSizeKB, blockSizeBytes) {
+  const cacheSizeBytes = cacheSizeKB * 1024; // Convert cache size to bytes
+  return cacheSizeBytes / blockSizeBytes; // Compute and return associativity
+}
+
 function promptUser() {
   readline.question('Enter the number of address bits (Usually given as "X bit processor"): ', addressBits => {
     addressBits = parseFloat(addressBits);
@@ -79,6 +90,7 @@ function promptUser() {
       readline.question('Enter the block size in bytes: ', blockSizeBytes => {
         blockSizeBytes = parseFloat(blockSizeBytes);
         
+        console.log(`IF FULLY ASSOCIATIVE, ENTER ${calculateAssociativity(cacheSizeKB, blockSizeBytes)} NOW`)
         readline.question('Enter the cache associativity (e.g., 1 for direct-mapped, 2 for 2-way set associative, etc.): ', associativity => {
           associativity = parseFloat(associativity);
 
