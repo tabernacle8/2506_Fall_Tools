@@ -55,7 +55,7 @@ async function main() {
         }
     });
 
-    console.log(`Processor ${fastestProcessor} has the lowest instruction execution latency.`);
+    console.log(`Processor ${fastestProcessor} has the lowest instruction execution latency at ${minLatency}ps`);
 
     // Additional comparison between two selected processors
     console.log("===============================================");
@@ -71,6 +71,7 @@ async function main() {
     const initialLatencyX = (processorX.pipelineStages - 1) * processorX.stageLatency;
     const initialLatencyY = (processorY.pipelineStages - 1) * processorY.stageLatency;
 
+    console.log(`YOU NEED TO TAKE INTO ACCOUNT STAGES. FOR EXAMPLE IF INEQUALITY >4 YOU NEED TO ADD ${processorX.issueRate} TO YOUR ANSWER TO GET 4+${processorX.issueRate}`)
     console.log(`${initialLatencyX} + ((${processorX.stageLatency} * N) / ${processorX.issueRate}) < ${initialLatencyY} + ((${processorY.stageLatency} * N) / ${processorY.issueRate})`);
 
 
