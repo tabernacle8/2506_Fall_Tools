@@ -83,6 +83,8 @@ function calculateAssociativity(cacheSizeKB, blockSizeBytes) {
 function promptUser() {
   readline.question('Enter the number of address bits (Usually given as "X bit processor"): ', addressBits => {
     addressBits = parseFloat(addressBits);
+    console.log("Block size = Words per block * Size of word in BYTES")
+    console.log("Cache size = Number of blocks * Block size")
 
     readline.question('Enter the cache size in Kilobytes: ', cacheSizeKB => {
       cacheSizeKB = parseFloat(cacheSizeKB);
