@@ -34,11 +34,11 @@ async function main() {
         const efficiencyRate = await askQuestion('Enter the efficiency rate (as a percentage) Ex: This processor is 2-multiple issue 80% of the time, enter 80: ');
 
         processors.push({
-            pipelineStages: parseInt(pipelineStages),
-            stageLatency: parseInt(stageLatency),
-            issueRate: parseInt(issueRate),
+            pipelineStages: parseFloat(pipelineStages),
+            stageLatency: parseFloat(stageLatency),
+            issueRate: parseFloat(issueRate),
             efficiencyRate: parseFloat(efficiencyRate) / 100,
-            pipelineLatency: parseInt(pipelineStages) * parseInt(stageLatency)
+            pipelineLatency: parseFloat(pipelineStages) * parseFloat(stageLatency)
         });
     }
 
